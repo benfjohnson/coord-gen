@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset='utf-8'/>
+  </head>
+  <body>
+    <div id='app-root'></div>
+    <script type='text/javascript'>
+      const coordGenerator = new Worker('coordinate-worker.js');
+      coordGenerator.onmessage = (e) => {
+        const node = document.createElement('p');
+        node.innerHTML = `Latitude: ${e.data.lat}, Longitude: ${e.data.long}`;
+        document.querySelector('#app-root')
+          .appendChild(node);
+      };
+      // Expects signal, TPS, and then duration, in minutes
+      coordGenerator.postMessage(['START', 200, .1]);
+    </script>
+  <body>
+</html>
